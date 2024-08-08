@@ -22,6 +22,36 @@
 
     <!-- Include MathQuill JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
-    <script src="math-input.js"></script>
+    <script>
+        // Ensure MathQuill is loaded before using it
+        window.onload = function() {
+            const MQ = MathQuill.getInterface(2); // MathQuill 2.0 API
+            const mathField = MQ.MathField(document.getElementById('mathInput'), {
+                spaceBehavesLikeTab: true, // Behave like LaTeX environment
+                handlers: {
+                    edit: function() { // Event triggered on any edit
+                        // Optionally process or validate input in real-time here
+                    }
+                }
+            });
+            window.calculate = function() {
+                const input = mathField.latex();
+                fetch('https://zynk.onrender.com/calculate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ expression: input })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('mathOutput').innerHTML = `$$${data.result}$$`;
+                    MathJax.typesetPromise();
+                })
+                .catch(error => {
+                    console.error('Error fetching from the backend:', error);
+                    document.getElementById('mathOutput').textContent = 'Failed to calculate';
+                });
+            };
+        }
+    </script>
 </body>
 </html>
