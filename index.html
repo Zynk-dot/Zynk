@@ -3,82 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Math Calculator Explainer</title>
+    <title>Interactive Math Input</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
-    <nav class="container-fluid">
-        <ul>
-            <li><strong>Math Calculator</strong></li>
-        </ul>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#" role="button">Contact</a></li>
-        </ul>
-    </nav>
-
     <main class="container">
-        <div class="grid">
-            <section>
-                <hgroup>
-                    <h2>Calculator</h2>
-                    <h3>Perform basic math operations</h3>
-                </hgroup>
-                <p>Enter your calculations below and see the results instantly.</p>
-                <figure>
-                    <img src="https://source.unsplash.com/random/800x400?math" alt="Math Image" />
-                    <figcaption><a href="https://unsplash.com" target="_blank">Image from Unsplash</a></figcaption>
-                </figure>
-                <h3>Enter Calculation</h3>
-                <p>
-                    <input type="text" id="calculation" placeholder="e.g., 2+2" />
-                    <button id="calculate">Calculate</button>
-                </p>
-                <h3>Result</h3>
-                <p id="result"></p>
-            </section>
+        <h1>Interactive Math Input</h1>
+        <p>Type your math expression below:</p>
+        <div>
+            <input type="text" id="mathInput" placeholder="e.g., x^2 + 4x + 4" style="width: 100%;">
         </div>
+        <h2>Rendered Output:</h2>
+        <p id="mathOutput"></p>
     </main>
 
-    <section aria-label="Subscribe example">
-        <div class="container">
-            <article>
-                <hgroup>
-                    <h2>Stay Updated</h2>
-                    <h3>Subscribe for updates</h3>
-                </hgroup>
-                <form class="grid">
-                    <input type="text" id="firstname" name="firstname" placeholder="First Name" aria-label="First Name" required />
-                    <input type="email" id="email" name="email" placeholder="Email" aria-label="Email" required />
-                    <button type="submit" onclick="event.preventDefault()">Subscribe</button>
-                </form>
-            </article>
-        </div>
-    </section>
-
-    <footer class="container">
-        <small><a href="#">Terms</a> • <a href="#">Privacy</a></small>
-    </footer>
-
-    <script>
-        document.getElementById('calculate').addEventListener('click', async function() {
-            const calculation = document.getElementById('calculation').value;
-            try {
-                const response = await fetch('https://zynk.onrender.com/calculate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ expression: calculation })
-                });
-                const data = await response.json();
-                document.getElementById('result').textContent = data.result || data.error;
-            } catch (error) {
-                document.getElementById('result').textContent = 'Error connecting to server';
-            }
-        });
-    </script>
-    
+    <!-- Link to the separate JavaScript file -->
+    <script src="math-input.js"></script>
 </body>
 </html>
