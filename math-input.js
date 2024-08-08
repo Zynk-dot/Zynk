@@ -1,13 +1,21 @@
-// Define the URL of the backend server
-const backendUrl = 'https://zynk.onrender.com/calculate';
+// Initialize MathQuill
+const MQ = MathQuill.getInterface(2); // MathQuill 2.0 API
+const mathField = MQ.MathField(document.getElementById('mathInput'), {
+    spaceBehavesLikeTab: true, // Behave like LaTeX environment
+    handlers: {
+        edit: function() { // Event triggered on any edit
+            // Optionally process or validate input in real-time here
+        }
+    }
+});
 
-// Update the displayed math expression based on user input
-function updateMath() {
-    const input = document.getElementById('mathInput').value;
+// Function to handle calculations
+function calculate() {
+    const input = mathField.latex(); // Get the LaTeX from MathQuill
     const formattedInput = formatInputForLaTeX(input);
 
     // Make a POST request to the backend server
-    fetch(backendUrl, {
+    fetch('https://zynk.onrender.com/calculate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -17,7 +25,7 @@ function updateMath() {
     .then(response => response.json())
     .then(data => {
         document.getElementById('mathOutput').innerHTML = `$$${data.result}$$`;
-        MathJax.typesetPromise(); // Trigger MathJax to re-render the output
+        MathJax.typesetPromise(); // Re-render LaTeX
     })
     .catch(error => {
         console.error('Error fetching from the backend:', error);
@@ -25,28 +33,30 @@ function updateMath() {
     });
 }
 
-// Convert user input into a LaTeX formatted string
+// Function to format input for LaTeX
 function formatInputForLaTeX(input) {
-    // Basic replacements to convert to LaTeX compatible format
+    // Convert common functions and operators to LaTeX-friendly format
     let formattedInput = input;
 
-    // Handling exponentiation
-    formattedInput = formattedInput.replace(/\^([^\^]+)/g, '^{ $1 }');
+    // Replace sqrt() with \sqrt{}
+    formattedInput = formattedInput.replace(/sqrt/g, '\\sqrt');
 
-    // Handling fractions (simple cases)
-    formattedInput = formattedInput.replace(/\\frac{([^}]+)}{([^}]+)}/g, '\\frac{$1}{$2}');
+    // Handle trigonometric functions
+    formattedInput = formattedInput.replace(/sin/g, '\\sin');
+    formattedInput = formattedInput.replace(/cos/g, '\\cos');
+    formattedInput = formattedInput.replace(/tan/g, '\\tan');
+
+    // Handle fractions
+    formattedInput = formattedInput.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
+
+    // Handle powers, e.g., x^2 to x^{2}
+    formattedInput = formattedInput.replace(/(\w+)\^(\w+)/g, '$1^{\$2}');
+
+    // Handle logarithms
+    formattedInput = formattedInput.replace(/log/g, '\\log');
+
+    // Additional replacements as needed
+    // Add more replacements for other specific patterns
 
     return formattedInput;
-}
-
-// Initialize the event listeners for the input field
-function initEventListeners() {
-    const inputField = document.getElementById('mathInput');
-    inputField.addEventListener('input', updateMath);
-}
-
-// Run initial setup functions when the window loads
-window.onload = function() {
-    initEventListeners();
-    updateMath();  // Initial render to show placeholder or default example
 }

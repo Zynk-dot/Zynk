@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Interactive Math Input</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Include MathQuill CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <!-- MathJax for LaTeX rendering -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
     <main class="container">
-        <h1>Interactive Math Input</h1>
-        <p>Type your math expression below:</p>
-        <div>
-            <input type="text" id="mathInput" placeholder="e.g., x^2 + 4x + 4" style="width: 100%;">
-        </div>
-        <h2>Rendered Output:</h2>
+        <h1>What do you want to calculate?</h1>
+        <div id="mathInput" style="border: 1px solid #ccc; padding: 10px; min-height: 50px;"></div>
+        <button onclick="calculate()">CALCULATE IT!</button>
+        <h2>Calculation Result:</h2>
         <p id="mathOutput"></p>
     </main>
 
-    <!-- Link to the separate JavaScript file -->
+    <!-- Include MathQuill JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
     <script src="math-input.js"></script>
 </body>
 </html>
