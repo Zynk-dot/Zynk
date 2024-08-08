@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Math Calculator Explainer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li><strong>Math Calculator</strong></li>
+        </ul>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#" role="button">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>Calculator</h2>
+                    <h3>Perform basic math operations</h3>
+                </hgroup>
+                <p>Enter your calculations below and see the results instantly.</p>
+                <figure>
+                    <img src="https://source.unsplash.com/random/800x400?math" alt="Math Image" />
+                    <figcaption><a href="https://unsplash.com" target="_blank">Image from Unsplash</a></figcaption>
+                </figure>
+                <h3>Enter Calculation</h3>
+                <p>
+                    <input type="text" id="calculation" placeholder="e.g., 2+2" />
+                    <button id="calculate">Calculate</button>
+                </p>
+                <h3>Result</h3>
+                <p id="result"></p>
+            </section>
+        </div>
+    </main>
+
+    <section aria-label="Subscribe example">
+        <div class="container">
+            <article>
+                <hgroup>
+                    <h2>Stay Updated</h2>
+                    <h3>Subscribe for updates</h3>
+                </hgroup>
+                <form class="grid">
+                    <input type="text" id="firstname" name="firstname" placeholder="First Name" aria-label="First Name" required />
+                    <input type="email" id="email" name="email" placeholder="Email" aria-label="Email" required />
+                    <button type="submit" onclick="event.preventDefault()">Subscribe</button>
+                </form>
+            </article>
+        </div>
+    </section>
+
+    <footer class="container">
+        <small><a href="#">Terms</a> • <a href="#">Privacy</a></small>
+    </footer>
+
+    <script>
+        document.getElementById('calculate').addEventListener('click', function() {
+            const calculation = document.getElementById('calculation').value;
+            try {
+                const result = eval(calculation);
+                document.getElementById('result').textContent = result;
+            } catch (error) {
+                document.getElementById('result').textContent = 'Invalid calculation';
+            }
+        });
+    </script>
+</body>
+</html>
